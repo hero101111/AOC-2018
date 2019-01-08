@@ -1,0 +1,40 @@
+
+0:  seti 123 0 3          |
+1:  bani 3 456 3          |
+2:  eqri 3 72 3           |
+3:  addr 3 2 2            | IF RJ
+4:  seti 0 0 2            | F: JMP  | TO 1:
+5:  seti 0 6 3            | T: SET  | R[3] = 0
+6:  bori 3 65536 4        |         | R[4] = R[3] | 65536
+7:  seti 7041048 8 3      |         | R[3] = 7041048
+
+8:  bani 4 255 5          |         | R[5] = R[4] & 255
+9:  addr 3 5 3            |         | R[3] = R[3] + R[5]
+10: bani 3 16777215 3     |         | R[3] &= 16777215
+11: muli 3 65899 3        |         | R[3] *= 65899
+12: bani 3 16777215 3     |         | R[3] &= 16777215
+                          |
+13: gtir 256 4 5          | >       | 256 > R[4] ? STORE in R[5]
+14: addr 5 2 2            | IF RJ   | 
+15: addi 2 1 2            | F: SKIP | OVER 1 (FALSE)
+16: seti 27 6 2           | T: JMP  | TO 28: (TRUE)
+                          |         | 
+17: seti 0 1 5            | SET     | R[5] TO 0
+18: addi 5 1 1            | ADD     | R[1] = R[5] + 1
+19: muli 1 256 1          | MUL     | R[1] *= 256
+                          |         | 
+20: gtrr 1 4 1            | >       | R[1] > R[4] ? (store in [R1])   
+21: addr 1 2 2            | IF RJ   | 
+22: addi 2 1 2            | F: SKIP | OVER 1
+23: seti 25 1 2           | T: JMP  | TO: 26
+                          |         | 
+24: addi 5 1 5            | ADD     | R[5] ++
+25: seti 17 8 2           | JMP     | TO 18:
+                          |         | 
+26: setr 5 2 4            | SET     | R[4] = R[5]
+27: seti 7 9 2            | JMP     | TO 8:
+                          |         | 
+28: eqrr 3 0 5            | ==      | R[3] == R[0] ? STORE in R[5]
+29: addr 5 2 2            | IF RJ   | 
+30: seti 5 3 2            | F: JMP  | TO 6: (FALSE)
+31: FFFFFEEEEE            | T: end  | 
